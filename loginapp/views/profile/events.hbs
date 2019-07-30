@@ -1,0 +1,95 @@
+<head>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<nav class="navbar navbar-light bg-light">
+  <form action="/users" method="post">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+<div class="todo">
+  <div class="mapa">
+    <div class="tarjeta">
+      <h2>Oh hi {{user.name}}</h2>
+      <img src="{{user.profileImg}}">
+    </div>
+    <form action="/profile/picture" method="post" enctype="multipart/form-data">
+      <label for="poster">Poster</label>
+      <input type="file" name="photo" id="poster">
+      <input type="submit" value="save">
+    </form>
+
+
+  </div>
+  <div class="posts">
+    <div class="seleccionar">
+      <div class="posts">
+        <a href="/profile">Posts</a>
+      </div>
+      <div class="artistas">
+        <a href="/profile/artistas">Artistas</a>
+      </div>
+      <div class="musica">
+        <a href="/profile/music"> Musica </a>
+
+      </div>
+      <div class="eventos">
+        Eventos
+      </div>
+    </div>
+    <form action="/profile/eventos" method="post" novalidate>
+
+      <label for="name">Nombre del evento </label>
+      <input type="text" name="name" class="content">
+      <label for="description">Descripsion del evento(recuerda escribir tu direccion(solo guardamos la ubicacion)y hora
+        del evento)</label>
+      <input type="text" name="description">
+      <label for="fecha">Fecha del evento</label>
+      <input type="date" name="fecha">
+      <button type="submit">Crear evento</button>
+      <input type="number" name="longitud" id="longitud" hidden>
+      <input type="number" name="latitud" id="latitud" hidden>
+      <!--<label for="longitud">Inserta la longitud de la ubicacion de tu evento</label>
+      <input type="text" name="longitud">
+      <label for="latitud">Inserta la latitud de la ubicacion de tu evento</label>
+      <input type="text" name="latitud">-->
+    </form>
+    <div class="seleccionar">
+      <div id='map' style='width: 400px; height: 300px;'></div>
+    </div>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <script
+      src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.min.js'></script>
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiY2h1Y2E5OSIsImEiOiJjanhtMmNoajcwY2d5M3JtZ2F5am15cnN3In0.bKS7-zBZuo3040BnEcmqkA';
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11'
+      });
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl
+      })
+      map.addControl(geocoder)
+      geocoder.on("result", ({ result: { center } }) => {
+        console.log(center)
+        document.querySelector("#longitud").value = center[0]
+        document.querySelector("#latitud").value = center[1]
+      })
+    </script>
+
+    {{#each events as |event|}}
+    <div>
+      <p>{{event.name}} </p>
+      <p>{{event.description}}</p>
+      <p>{{event.fecha}}</p>
+    </div>
+    {{/each}}
+  </div>
+  <div class="reproductor">
+    <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380" frameborder="0"
+      allowtransparency="true" allow="encrypted-media"></iframe>
+  </div>
+</div>

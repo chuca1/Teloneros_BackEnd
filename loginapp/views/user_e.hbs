@@ -1,0 +1,45 @@
+<head>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<nav class="navbar navbar-light bg-light">
+  <form action="/users" method="post">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+<div class="todo">
+  <div class="mapa">
+    <div class="tarjeta">
+      <h2>Oh hi {{user.name}}</h2>
+      <a href="/profile"><img src="{{user.profileImg}}"></a>
+    </div>
+  </div>
+  <div class="posts">
+    <div class="seleccionar">
+      <div class="posts">
+        <a href="/users/{{id}}">Posts</a>
+      </div>
+      <div class="artistas">
+        <a href="/users/artistas/{{id}}">Artisats</a>
+      </div>
+      <div class="musica">
+        <a href="/users/music/{{id}}">Music</a>
+      </div>
+      <div class="eventos">
+        Eventos
+      </div>
+    </div>
+    {{#each events as |event|}}
+    <div>
+      <p>{{event.name}} </p>
+      <p>{{event.description}}</p>
+      <p>{{event.fecha}}</p>
+    </div>
+    {{/each}}
+  </div>
+  <div class="reproductor">
+    <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380" frameborder="0"
+      allowtransparency="true" allow="encrypted-media"></iframe>
+  </div>
+</div>
